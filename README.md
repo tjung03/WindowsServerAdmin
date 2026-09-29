@@ -2,6 +2,8 @@
 
 Active Directory Domain Services(AD DS), DNS, DHCP, IIS와 FTP의 역할을 연결해 보는 Windows Server 실습 문서입니다. 도메인 컨트롤러와 클라이언트의 의존 관계, 역할 설치 뒤 확인할 상태를 정리했습니다. 배포 스크립트나 실제 서버의 실행 결과는 포함하지 않습니다.
 
+![AD DS 포리스트, 자식 도메인 DC, RODC와 클라이언트의 논리 구성](docs/images/ad-domain-topology.svg)
+
 ## 구성 관계
 
 | 영역 | 구성 시나리오 | 확인할 내용 |

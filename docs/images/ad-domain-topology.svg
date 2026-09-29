@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="485" viewBox="0 0 1180 485" role="img" aria-labelledby="title desc">
+  <title id="title">Windows Server AD DS 논리 구성</title>
+  <desc id="desc">ad.example.test의 쓰기 가능한 도메인 컨트롤러와 DNS를 중심으로 자식 도메인 컨트롤러, 같은 도메인의 읽기 전용 도메인 컨트롤러, 도메인 가입 클라이언트의 관계를 보여 주는 설명용 구성이다.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#0f172a"/><stop offset="1" stop-color="#172554"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#93c5fd"/></marker>
+    <style>
+      .title{font:700 27px system-ui,sans-serif;fill:#f8fafc}.sub{font:15px system-ui,sans-serif;fill:#cbd5e1}
+      .name{font:700 20px system-ui,sans-serif;fill:#f8fafc}.detail{font:15px system-ui,sans-serif;fill:#cbd5e1}
+      .root{fill:#1e3a8a;stroke:#93c5fd;stroke-width:2}.child{fill:#1e293b;stroke:#60a5fa;stroke-width:2}.rodc{fill:#312e81;stroke:#a5b4fc;stroke-width:2}.client{fill:#1e293b;stroke:#94a3b8;stroke-width:2}
+      .line{fill:none;stroke:#93c5fd;stroke-width:2.5;marker-end:url(#arrow)}.tag{font:14px system-ui,sans-serif;fill:#bfdbfe}
+    </style>
+  </defs>
+  <rect width="1180" height="485" rx="22" fill="url(#bg)"/>
+  <text x="42" y="51" class="title">AD DS · Domain and client topology</text>
+  <text x="42" y="78" class="sub">Conceptual scenario · installation and replication results are not shown</text>
+  <rect x="54" y="170" width="330" height="140" rx="16" class="root"/>
+  <text x="78" y="211" class="name">First writable DC · DNS</text>
+  <text x="78" y="244" class="detail">ad.example.test forest</text>
+  <text x="78" y="272" class="detail">Writable DC · DNS registration</text>
+  <rect x="495" y="112" width="300" height="125" rx="16" class="child"/>
+  <text x="519" y="153" class="name">Child domain DC</text>
+  <text x="519" y="185" class="detail">child.ad.example.test</text>
+  <text x="519" y="211" class="detail">Parent DNS lookup required</text>
+  <rect x="495" y="291" width="300" height="125" rx="16" class="rodc"/>
+  <text x="519" y="332" class="name">Read-only DC · RODC</text>
+  <text x="519" y="364" class="detail">Additional DC in ad.example.test</text>
+  <text x="519" y="390" class="detail">Check replication and policy</text>
+  <rect x="874" y="171" width="252" height="140" rx="16" class="client"/>
+  <text x="897" y="213" class="name">Domain client</text>
+  <text x="897" y="244" class="detail">Uses domain DNS</text>
+  <text x="897" y="271" class="detail">Join and sign-in check</text>
+  <path d="M384 207 H430 V174 H485" class="line"/>
+  <path d="M384 274 H430 V353 H485" class="line"/>
+  <path d="M384 295 V433 H1000 V321" class="line"/>
+  <text x="748" y="425" class="tag">DNS lookup · domain join</text>
+  <text x="54" y="466" class="sub">Example names only · verify DNS responses, replication and join results in the target environment.</text>
+</svg>
