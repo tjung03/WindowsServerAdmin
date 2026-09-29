@@ -1,36 +1,19 @@
-# Windows Server 관리 실습 기록
+# Windows Server 역할 구성과 점검
 
-Windows Server 과정의 개인 학습 노트에서 **AD DS·DNS·DHCP·IIS·FTP의 구성 관계와 확인 절차**를 선별해 정리한 자료입니다. GUI 중심 실습도 서버 역할, 네트워크 전제, 작업 순서, 확인 지점을 문서로 남길 수 있습니다. 이 저장소는 실제 배포 자동화나 현재 운영 환경을 주장하지 않습니다.
+Active Directory Domain Services(AD DS), DNS, DHCP, IIS와 FTP의 역할을 연결해 보는 Windows Server 실습 문서입니다. 도메인 컨트롤러와 클라이언트의 의존 관계, 역할 설치 뒤 확인할 상태를 정리했습니다. 배포 스크립트나 실제 서버의 실행 결과는 포함하지 않습니다.
 
-## 실습 범위
+## 구성 관계
 
-| 주제 | 노트에 남은 구성 | 상세 |
+| 영역 | 구성 시나리오 | 확인할 내용 |
 |---|---|---|
-| Active Directory | `hanbit.com` 포리스트, `second.hanbit.com` 자식 도메인, 읽기 전용 도메인 컨트롤러, 클라이언트 가입 | [AD 실습 구조](docs/ad-lab.md) |
-| DNS·DHCP | DNS 서버 역할과 이름 조회, DHCP 범위 생성과 클라이언트 갱신 | [서비스 확인](docs/service-checks.md) |
-| IIS·FTP | 서버 역할·서비스·방화벽 및 기본 문서·가상 디렉터리 실습 항목 | [서비스 확인](docs/service-checks.md) |
+| AD DS | 새 포리스트의 첫 도메인 컨트롤러, 자식 도메인 컨트롤러, 읽기 전용 도메인 컨트롤러(RODC), 도메인 가입 클라이언트 | DNS 조회와 도메인 가입·복제 상태의 확인 지점 |
+| DNS·DHCP | DNS 존과 레코드, DHCP IPv4 범위 | 클라이언트의 이름 조회·주소·기본 경로·DNS 설정 |
+| IIS·FTP | 웹 사이트 바인딩과 기본 문서, 별도 FTP 서비스 | 서비스 상태, 응답, 인증과 접근 권한 |
 
-노트의 `[실습]` 표기는 실습 항목 또는 절차가 기록됐다는 뜻입니다. 이 자료만으로 각 단계의 성공 화면이나 현재 재현 결과까지 확인된 것은 아닙니다. `[실습x]`와 과제 요구사항은 완료 항목으로 포함하지 않았습니다.
+AD DS의 논리 예시는 `ad.example.test` 포리스트와 `child.ad.example.test` 자식 도메인입니다. 두 이름은 설명용이며 실제 도메인이나 인증 정보가 아닙니다. [AD DS 구성 관계](docs/ad-lab.md)에서 서버 역할과 DNS 선행 조건을, [서비스별 점검](docs/service-checks.md)에서 DNS·DHCP·IIS·FTP의 확인 순서를 설명합니다.
 
-## AD 실습 구성
+## 적용·검증 경계
 
-| 노트의 이름 | 주소 | 노트상 역할 |
-|---|---|---|
-| FIRST | `192.168.10.10/24` | `hanbit.com` 첫 번째 DC·DNS |
-| SECOND | `192.168.10.20/24` | `second.hanbit.com` 자식 도메인 DC |
-| THIRD | `192.168.10.30/24` | `hanbit.com` 읽기 전용 DC(RODC) |
-| WinClient | 노트에 주소 없음 | `hanbit.com` 도메인 멤버 |
+이 문서는 구성 시나리오와 **검증 절차**를 제시합니다. 실제 서버에 역할을 설치한 로그, 복제 결과, DHCP 임대나 HTTP 응답을 이 저장소의 완료 결과로 주장하지 않습니다. 대상 OS 버전, 네트워크, 권한을 먼저 확인하고 GUI 화면과 명령 결과를 별도로 기록해야 합니다. FTP의 익명 업로드를 공개 서비스의 권장 설정으로 사용하지 않습니다.
 
-이 주소와 이름은 **노트에 제시된 실습 구성값**입니다. 실제 환경에 그대로 적용하는 값이 아닙니다. 역할별 DNS 설정과 GUI 작업 순서는 [AD 실습 구조](docs/ad-lab.md)에 있습니다.
-
-## 읽는 순서
-
-1. [AD 실습 구조](docs/ad-lab.md)에서 도메인·DNS의 선행 관계와 노트의 설정 경로를 확인합니다.
-2. [서비스 확인](docs/service-checks.md)에서 DNS·DHCP·IIS·FTP 실습 항목과 확인 기준을 확인합니다.
-3. 새 환경에서 실습할 때는 OS 버전과 Microsoft 공식 문서를 먼저 대조하고, 완료 증거는 별도로 기록합니다.
-
-## 버전 및 공개 범위
-
-수업 노트에는 Windows Server 2012 R2 설치 매체와 `2022` 언급이 함께 있어 모든 절차를 하나의 버전에서 수행했다고 단정할 수 없습니다. **Windows Server 2012 R2의 연장 지원은 2023년 10월 10일 종료**되었습니다. 이 문서는 당시 학습 범위를 보존하며, 현재 재실습은 지원되는 Windows Server 버전의 [AD DS 설치 안내](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-active-directory-domain-services--level-100-)를 기준으로 화면과 절차를 다시 확인해야 합니다. [Microsoft 수명 주기](https://learn.microsoft.com/en-us/lifecycle/products/windows-server-2012-r2)
-
-노트의 계정 비밀번호, 자동 로그인·보안 기능 해제, 로그인 화면에서의 암호 재설정 절차는 이 공개 문서에 싣지 않았습니다. 교재 PDF나 설치 이미지도 저장소에 포함하지 않습니다.
+Windows Server 2012 R2의 일반 연장 지원은 2023년 10월 10일 종료됐습니다. 새 실습에서는 지원 중인 Windows Server 버전과 해당 버전의 [AD DS 설치 안내](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-active-directory-domain-services--level-100-)를 확인합니다. [Microsoft 지원 수명 주기](https://learn.microsoft.com/en-us/lifecycle/announcements/windows-server-2012-r2-end-of-support)
